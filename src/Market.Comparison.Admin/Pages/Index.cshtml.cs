@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Market.Comparison.Admin.Pages
 {
@@ -14,7 +13,6 @@ namespace Market.Comparison.Admin.Pages
 
         public void OnGet()
         {
-
         }
     }
 }
