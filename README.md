@@ -1,5 +1,5 @@
 # Introduction
-This repo contains the code of the Admin site of the Market Comparison platform.
+This repo contains the code of the Admin site of the Market Comparison platform. This project uses Razor Pages in an ASP.NET Core web application.
 
 # Build
 To start reviewing and/or developing in this repo, it is necessary to have:
