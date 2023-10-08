@@ -23,7 +23,7 @@ internal static class HostingExtensions
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddOpenIdConnect("oidc", options =>
             {
-                options.Authority = "https://localhost:7100";
+                options.Authority = builder.Configuration["Jwt:Authority"];
 
                 options.ClientId = "web";
                 options.ClientSecret = "secret";
