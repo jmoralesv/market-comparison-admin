@@ -31,17 +31,17 @@ public class Index : PageModel
 
     public ViewModel View { get; set; } = new();
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(CancellationToken cancellationToken)
     {
-        var grants = await _interaction.GetAllUserGrantsAsync();
+        var grants = await _interaction.GetAllUserGrantsAsync(cancellationToken);
 
         var list = new List<GrantViewModel>();
         foreach (var grant in grants)
         {
-            var client = await _clients.FindClientByIdAsync(grant.ClientId);
+            var client = await _clients.FindClientByIdAsync(grant.ClientId, cancellationToken);
             if (client != null)
             {
-                var resources = await _resources.FindResourcesByScopeAsync(grant.Scopes);
+                var resources = await _resources.FindResourcesByScopeAsync(grant.Scopes, cancellationToken);
 
                 var item = new GrantViewModel()
                 {
@@ -70,10 +70,10 @@ public class Index : PageModel
     [Required]
     public string ClientId { get; set; } = default!;
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
     {
-        await _interaction.RevokeUserConsentAsync(ClientId);
-        await _events.RaiseAsync(new GrantsRevokedEvent(User.GetSubjectId(), ClientId));
+        await _interaction.RevokeUserConsentAsync(ClientId, cancellationToken);
+        await _events.RaiseAsync(new GrantsRevokedEvent(User.GetSubjectId(), ClientId), cancellationToken);
 
         return RedirectToPage("/Grants/Index");
     }

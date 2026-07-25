@@ -32,7 +32,7 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string? Prev { get; set; }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(CancellationToken cancellationToken)
     {
         if (_sessionManagementService != null)
         {
@@ -43,19 +43,19 @@ public class IndexModel : PageModel
                 DisplayName = DisplayNameFilter,
                 SessionId = SessionIdFilter,
                 SubjectId = SubjectIdFilter
-            });
+            }, cancellationToken);
         }
     }
 
     [BindProperty]
     public string? SessionId { get; set; }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
     {
         await _sessionManagementService.RemoveSessionsAsync(new RemoveSessionsContext
         {
             SessionId = SessionId,
-        });
+        }, cancellationToken);
         return RedirectToPage("/ServerSideSessions/Index", new { Token, DisplayNameFilter, SessionIdFilter, SubjectIdFilter, Prev });
     }
 }

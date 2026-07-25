@@ -30,7 +30,7 @@ public class Index : PageModel
     [BindProperty]
     public InputModel Input { get; set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(string userCode)
+    public async Task<IActionResult> OnGetAsync(string userCode, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(userCode))
         {
@@ -39,7 +39,7 @@ public class Index : PageModel
             return Page();
         }
 
-        View = await BuildViewModelAsync(userCode);
+        View = await BuildViewModelAsync(userCode, cancellationToken: cancellationToken);
         if (View == null)
         {
             ModelState.AddModelError("", DeviceOptions.InvalidUserCode);
@@ -56,9 +56,9 @@ public class Index : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
     {
-        var request = await _interaction.GetAuthorizationContextAsync(Input.UserCode);
+        var request = await _interaction.GetAuthorizationContextAsync(Input.UserCode, cancellationToken);
         if (request == null) return RedirectToPage("/Home/Error/Index");
 
         ConsentResponse? grantedConsent = null;
@@ -68,11 +68,11 @@ public class Index : PageModel
         {
             grantedConsent = new ConsentResponse
             {
-                Error = AuthorizationError.AccessDenied
+                Error = InteractionError.AccessDenied
             };
 
             // emit event
-            await _events.RaiseAsync(new ConsentDeniedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues));
+            await _events.RaiseAsync(new ConsentDeniedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues), cancellationToken);
         }
         // user clicked 'yes' - validate the data
         else if (Input.Button == "yes")
@@ -94,7 +94,7 @@ public class Index : PageModel
                 };
 
                 // emit event
-                await _events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent));
+                await _events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent), cancellationToken);
             }
             else
             {
@@ -109,20 +109,20 @@ public class Index : PageModel
         if (grantedConsent != null)
         {
             // communicate outcome of consent back to identity server
-            await _interaction.HandleRequestAsync(Input.UserCode, grantedConsent);
+            await _interaction.HandleRequestAsync(Input.UserCode, grantedConsent, cancellationToken);
 
             // indicate that's it OK to redirect back to authorization endpoint
             return RedirectToPage("/Device/Success");
         }
 
         // we need to redisplay the consent UI
-        View = await BuildViewModelAsync(Input.UserCode, Input);
+        View = await BuildViewModelAsync(Input.UserCode, Input, cancellationToken);
         return Page();
     }
 
-    private async Task<ViewModel?> BuildViewModelAsync(string userCode, InputModel? model = null)
+    private async Task<ViewModel?> BuildViewModelAsync(string userCode, InputModel? model = null, CancellationToken cancellationToken = default)
     {
-        var request = await _interaction.GetAuthorizationContextAsync(userCode);
+        var request = await _interaction.GetAuthorizationContextAsync(userCode, cancellationToken);
         if (request != null)
         {
             return CreateConsentViewModel(model, request);

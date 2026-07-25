@@ -17,10 +17,10 @@ public class LoggedOut : PageModel
         _interactionService = interactionService;
     }
 
-    public async Task OnGetAsync(string logoutId)
+    public async Task OnGetAsync(string logoutId, CancellationToken cancellationToken)
     {
         // get context information (client name, post logout redirect URI and iframe for federated sign-out)
-        var logout = await _interactionService.GetLogoutContextAsync(logoutId);
+        var logout = await _interactionService.GetLogoutContextAsync(logoutId, cancellationToken);
 
         View = new LoggedOutViewModel
         {

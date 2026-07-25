@@ -24,9 +24,9 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
-    public async Task<IActionResult> OnGetAsync(string id)
+    public async Task<IActionResult> OnGetAsync(string id, CancellationToken cancellationToken)
     {
-        LoginRequest = await _backchannelAuthenticationInteraction.GetLoginRequestByInternalIdAsync(id);
+        LoginRequest = await _backchannelAuthenticationInteraction.GetLoginRequestByInternalIdAsync(id, cancellationToken);
         if (LoginRequest == null)
         {
             _logger.LogWarning("Invalid backchannel login id {id}", id);

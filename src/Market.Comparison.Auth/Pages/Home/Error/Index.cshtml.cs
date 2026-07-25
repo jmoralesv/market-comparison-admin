@@ -19,12 +19,12 @@ public class Index : PageModel
         _environment = environment;
     }
 
-    public async Task OnGetAsync(string errorId)
+    public async Task OnGetAsync(string errorId, CancellationToken cancellationToken)
     {
         View = new ViewModel();
 
         // retrieve error details from identity server
-        var message = await _interaction.GetErrorContextAsync(errorId);
+        var message = await _interaction.GetErrorContextAsync(errorId, cancellationToken);
         if (message != null)
         {
             View.Error = message;
