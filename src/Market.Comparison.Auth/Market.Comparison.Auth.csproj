@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Market.Comparison.Auth.Data\Market.Comparison.Auth.Data.csproj" />
+    <ProjectReference Include="..\Market.Comparison.ServiceDefaults\Market.Comparison.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

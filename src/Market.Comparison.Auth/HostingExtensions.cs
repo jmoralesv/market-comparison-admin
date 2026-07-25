@@ -11,7 +11,7 @@ internal static class HostingExtensions
     internal static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         var migrationsAssembly = typeof(CustomConfigurationDbContext).Assembly.GetName().Name;
-        var connectionString = builder.Configuration.GetConnectionString("AuthConnection");
+        var connectionString = builder.Configuration.GetConnectionString("MarketComparisonDb");
 
         builder.Services.AddRazorPages();
 
