@@ -9,7 +9,6 @@
     <ProjectReference Include="..\Market.Comparison.Admin\Market.Comparison.Admin.csproj" />
     <ProjectReference Include="..\Market.Comparison.Api\Market.Comparison.Api.csproj" />
     <ProjectReference Include="..\Market.Comparison.Auth\Market.Comparison.Auth.csproj" />
-    <ProjectReference Include="..\Market.Comparison.ServiceDefaults\Market.Comparison.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>
