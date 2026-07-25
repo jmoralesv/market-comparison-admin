@@ -33,7 +33,6 @@ internal static class WeatherForecastEndpoints
         })
         .RequireAuthorization("ApiScope")
         .WithName("GetWeatherForecast")
-        .WithOpenApi()
         .Produces<WeatherForecast[]>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status401Unauthorized);

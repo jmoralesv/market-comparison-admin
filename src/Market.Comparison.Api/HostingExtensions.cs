@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace Market.Comparison.Api;
 
@@ -25,18 +25,11 @@ internal static class HostingExtensions
                     Description = "JSON Web Token based security",
                 });
             options.AddSecurityRequirement(
-                new OpenApiSecurityRequirement
+                _ => new OpenApiSecurityRequirement
                 {
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = JwtBearerDefaults.AuthenticationScheme
-                            }
-                        },
-                        Array.Empty<string>()
+                        new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme),
+                        new List<string>()
                     }
                 });
         });
