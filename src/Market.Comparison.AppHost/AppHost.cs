@@ -1,12 +1,11 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var sql = builder.AddConnectionString("MarketComparisonDb");
+var authDatabase = builder.AddConnectionString("AuthConnection");
 
 var auth = builder.AddProject<Projects.Market_Comparison_Auth>("auth")
-    .WithReference(sql);
+    .WithReference(authDatabase);
 
 var api = builder.AddProject<Projects.Market_Comparison_Api>("api")
-    .WithReference(sql)
     .WithReference(auth);
 
 builder.AddProject<Projects.Market_Comparison_Admin>("admin")

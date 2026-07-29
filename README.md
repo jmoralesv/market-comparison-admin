@@ -42,7 +42,7 @@ Set `Market.Comparison.AppHost` as the startup project in Visual Studio and pres
 dotnet run --project src/Market.Comparison.AppHost
 ```
 
-The AppHost reads the `MarketComparisonDb` connection string from configuration and passes it to the services that require database access. No Docker is required; the default development connection string points to SQL Server LocalDB.
+The AppHost reads the connection strings from configuration and passes it to the services that require database access. No Docker is required.
 
 ## Central Package Management
 
