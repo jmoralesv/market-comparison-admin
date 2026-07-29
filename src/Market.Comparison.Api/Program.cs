@@ -1,10 +1,9 @@
 using Market.Comparison.Api;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults();
 
 var app = builder
+    .AddServiceDefaults()
     .ConfigureServices()
     .ConfigurePipeline();
 
