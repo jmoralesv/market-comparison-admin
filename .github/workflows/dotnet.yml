@@ -38,7 +38,7 @@ jobs:
         with:
           updateAssemblyInfo: false
           useConfigFile: true
-          configFilePath: "../GitVersion.yml"
+          configFilePath: ".github/GitVersion.yml"
 
       - name: Use .NET 10 SDK
         uses: actions/setup-dotnet@v4
