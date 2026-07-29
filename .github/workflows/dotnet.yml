@@ -8,11 +8,11 @@ on:
     branches:
       - "**"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
-  solution: 'Market.Comparison.slnx'
-  authProject: 'Market.Comparison.Auth/Market.Comparison.Auth.csproj'
+  solution: "Market.Comparison.slnx"
+  authProject: "Market.Comparison.Auth/Market.Comparison.Auth.csproj"
   buildConfiguration: ${{ github.ref == 'refs/heads/main' && 'Release' || 'Debug' }}
 
 jobs:
@@ -24,50 +24,50 @@ jobs:
         working-directory: src
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 # Disable shallow fetch to get the full history of the repository
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Disable shallow fetch to get the full history of the repository
 
-    - name: Setup Git Version
-      uses: GitTools/actions/gitversion/setup@v0.10.2
-      with:
-        versionSpec: '5.x'
+      - name: Setup Git Version
+        uses: GitTools/actions/gitversion/setup@v0.10.2
+        with:
+          versionSpec: "5.x"
 
-    - name: Execute Git Version
-      uses: GitTools/actions/gitversion/execute@v0.10.2
-      with:
-        updateAssemblyInfo: false
-        useConfigFile: true
-        configFilePath: '../.github/GitVersion.yml'
+      - name: Execute Git Version
+        uses: GitTools/actions/gitversion/execute@v0.10.2
+        with:
+          updateAssemblyInfo: false
+          useConfigFile: true
+          configFilePath: "../GitVersion.yml"
 
-    - name: Use .NET 10 SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '10.x'
+      - name: Use .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.x"
 
-    - name: Restore solution
-      run: dotnet restore ${{ env.solution }} --verbosity Minimal
+      - name: Restore solution
+        run: dotnet restore ${{ env.solution }} --verbosity Minimal
 
-    - name: Build solution
-      run: dotnet build ${{ env.solution }} --configuration ${{ env.buildConfiguration }} --no-restore /p:Version=${{ env.GitVersion_SemVer }} /p:PublicRelease=true /p:RunAnalyzersDuringBuild=true
+      - name: Build solution
+        run: dotnet build ${{ env.solution }} --configuration ${{ env.buildConfiguration }} --no-restore /p:Version=${{ env.GitVersion_SemVer }} /p:PublicRelease=true /p:RunAnalyzersDuringBuild=true
 
-    - name: Install EF Core Tools
-      run: dotnet tool install --global dotnet-ef
+      - name: Install EF Core Tools
+        run: dotnet tool install --global dotnet-ef
 
-    - name: Generate migration script for CustomConfigurationDbContext
-      run: dotnet ef migrations script --project ${{ env.authProject }} --startup-project ${{ env.authProject }} --output migrations/CustomConfigurationDbContext.sql --context CustomConfigurationDbContext --verbose --configuration ${{ env.buildConfiguration }} --no-build --idempotent
+      - name: Generate migration script for CustomConfigurationDbContext
+        run: dotnet ef migrations script --project ${{ env.authProject }} --startup-project ${{ env.authProject }} --output migrations/CustomConfigurationDbContext.sql --context CustomConfigurationDbContext --verbose --configuration ${{ env.buildConfiguration }} --no-build --idempotent
 
-    - name: Print CustomConfigurationDbContext.sql contents
-      run: |
-        path=$(find . -name "CustomConfigurationDbContext.sql" -print -quit)
-        echo "SQL path -> $path"
-        cat $path
+      - name: Print CustomConfigurationDbContext.sql contents
+        run: |
+          path=$(find . -name "CustomConfigurationDbContext.sql" -print -quit)
+          echo "SQL path -> $path"
+          cat $path
 
-    - name: Generate migration script for PersistedGrantDbContext
-      run: dotnet ef migrations script --project ${{ env.authProject }} --startup-project ${{ env.authProject }} --output migrations/PersistedGrantDbContext.sql --context PersistedGrantDbContext --verbose --configuration ${{ env.buildConfiguration }} --no-build --idempotent
+      - name: Generate migration script for PersistedGrantDbContext
+        run: dotnet ef migrations script --project ${{ env.authProject }} --startup-project ${{ env.authProject }} --output migrations/PersistedGrantDbContext.sql --context PersistedGrantDbContext --verbose --configuration ${{ env.buildConfiguration }} --no-build --idempotent
 
-    - name: Print PersistedGrantDbContext.sql contents
-      run: |
-        path=$(find . -name "PersistedGrantDbContext.sql" -print -quit)
-        echo "SQL path -> $path"
-        cat $path
+      - name: Print PersistedGrantDbContext.sql contents
+        run: |
+          path=$(find . -name "PersistedGrantDbContext.sql" -print -quit)
+          echo "SQL path -> $path"
+          cat $path
