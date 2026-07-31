@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitignore" />
+    <File Path="../.github/workflows/dotnet.yml" />
+    <File Path="../.github/GitVersion.yml" />
+    <File Path="../LICENSE" />
+    <File Path="../README.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
+  </Folder>
+  <Project Path="Market.Comparison.Admin/Market.Comparison.Admin.csproj" />
+  <Project Path="Market.Comparison.Api/Market.Comparison.Api.csproj" />
+  <Project Path="Market.Comparison.AppHost/Market.Comparison.AppHost.csproj" />
+  <Project Path="Market.Comparison.Auth.Data/Market.Comparison.Auth.Data.csproj" />
+  <Project Path="Market.Comparison.Auth/Market.Comparison.Auth.csproj" />
+  <Project Path="Market.Comparison.ServiceDefaults/Market.Comparison.ServiceDefaults.csproj" />
+</Solution>

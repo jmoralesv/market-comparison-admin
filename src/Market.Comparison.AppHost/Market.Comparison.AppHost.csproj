@@ -1,0 +1,14 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>c41ade47-9ad8-46a8-a5c9-b066eb6a112c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Market.Comparison.Admin\Market.Comparison.Admin.csproj" />
+    <ProjectReference Include="..\Market.Comparison.Api\Market.Comparison.Api.csproj" />
+    <ProjectReference Include="..\Market.Comparison.Auth\Market.Comparison.Auth.csproj" />
+  </ItemGroup>
+
+</Project>

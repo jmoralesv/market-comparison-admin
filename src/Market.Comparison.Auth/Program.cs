@@ -1,4 +1,4 @@
-using Market.Comparison.Admin;
+using Market.Comparison.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
