@@ -1,4 +1,11 @@
-mode: Mainline
-branches: {}
-ignore:
-  sha: []
+workflow: GitHubFlow/v1
+mode: ContinuousDeployment
+strategies:
+  - ConfiguredNextVersion
+  - Mainline
+branches:
+  main:
+    regex: ^master$|^main$
+    mode: ContinuousDeployment
+    increment: Patch
+    is-main-branch: true
