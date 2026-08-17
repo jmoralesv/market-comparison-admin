@@ -36,7 +36,6 @@ jobs:
       - name: Execute Git Version
         uses: GitTools/actions/gitversion/execute@v4.7.0
         with:
-          useConfigFile: true
           configFilePath: ".github/GitVersion.yml"
 
       - name: Use .NET 10 SDK
